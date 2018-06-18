@@ -19,16 +19,16 @@ module SpreadsheetX
         case file.name
           # open the workbook
         when "xl/#{@target_file}"
-          # when "xl/#{@sheet_target}"
-
           # read contents of this file
           file_contents = file.get_input_stream.read
 
           # parse the XML and hold the doc
           @xml_doc = XML::Document.string(file_contents)
           # set the default namespace
-          @xml_doc.root.namespaces.default_prefix = 'spreadsheetml'
-
+          prefix = 'spreadsheetml'
+          unless @xml_doc.root.namespaces.find_by_prefix(prefix)
+            @xml_doc.root.namespaces.default_prefix = prefix
+          end
         end
       end
     end
@@ -53,6 +53,13 @@ module SpreadsheetX
       target_file
     end
 
+    def cell(col_number, row_number)
+      cell_id = SpreadsheetX::Worksheet.cell_id(col_number, row_number)
+      cell = find_cell(cell_id, row_number)
+      raise "Cannot find cell by col number #{col_number} and row number #{row_number}" unless cell
+      cell.content
+    end
+
     # update the value of a particular cell, if the row or cell doesnt exist in the XML, then it will be created
     def update_cell(col_number, row_number, val, format = nil)
       cell_id = SpreadsheetX::Worksheet.cell_id(col_number, row_number)
@@ -61,7 +68,7 @@ module SpreadsheetX
 
       # if the val is nil or an empty string, then just delete the cell
       if val.nil?
-        if cell = @xml_doc.find_first("spreadsheetml:sheetData/spreadsheetml:row[@r=#{row_number}]/spreadsheetml:c[@r='#{cell_id}']")
+        if cell = find_cell(cell_id, row_number)
           cell.remove!
         end
         return
@@ -164,6 +171,12 @@ module SpreadsheetX
       end
 
       row
+    end
+
+    private
+
+    def find_cell(cell_id, row_number)
+      @xml_doc.find_first("spreadsheetml:sheetData/spreadsheetml:row[@r=#{row_number}]/spreadsheetml:c[@r='#{cell_id}']")
     end
   end
 end

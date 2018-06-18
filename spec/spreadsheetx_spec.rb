@@ -112,6 +112,19 @@ describe 'Spreadsheetx' do
     workbook.save(new_xlsx_file)
   end
 
+  it 'output instead of save' do
+    empty_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec.xlsx"
+    workbook = SpreadsheetX.open(empty_xlsx_file)
+
+    workbook.worksheets.last.update_cell(1, 1, 'HELLO OUTPUT')
+
+    path = "1.xlsx"
+    workbook.save(path)
+
+    workbook = SpreadsheetX.open(path)
+    expect(workbook.worksheets.last.cell(1, 1)).to eq 'HELLO OUTPUT'
+  end
+
   it 'can set formats on cells' do
     # a valid xlsx file used for testing
     empty_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec.xlsx"
