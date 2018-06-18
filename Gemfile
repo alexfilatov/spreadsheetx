@@ -6,9 +6,12 @@ gem 'rubyzip'
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
-group :development do
+group :development, :test do
   gem 'bundler'
+  gem 'byebug', platform: :mri
   gem 'jeweler'
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'rspec'
   gem 'rubocop'
 end
