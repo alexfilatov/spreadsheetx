@@ -1,12 +1,10 @@
-# encoding: utf-8
-
 require 'rubygems'
 require 'bundler'
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
-  $stderr.puts e.message
-  $stderr.puts "Run `bundle install` to install missing gems"
+  warn e.message
+  warn 'Run `bundle install` to install missing gems'
   exit e.status_code
 end
 require 'rake'
@@ -14,13 +12,13 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "spreadsheetx"
-  gem.homepage = "http://github.com/craigulliott/spreadsheetx"
-  gem.license = "MIT"
-  gem.summary = %Q{Facilitates opening and modifying existing xlsx excel spreadsheets}
-  gem.description = %Q{Using an existing xlsx file as a template, it allows you to modify cell values and add rows and columns.  Facilitating a templateized approach to creating a new xlsx spreadsheet}
-  gem.email = "craigulliott@gmail.com"
-  gem.authors = ["Craig Ulliott"]
+  gem.name = 'spreadsheetx'
+  gem.homepage = 'http://github.com/craigulliott/spreadsheetx'
+  gem.license = 'MIT'
+  gem.summary = %(Facilitates opening and modifying existing xlsx excel spreadsheets)
+  gem.description = %(Using an existing xlsx file as a template, it allows you to modify cell values and add rows and columns.  Facilitating a templateized approach to creating a new xlsx spreadsheet)
+  gem.email = 'craigulliott@gmail.com'
+  gem.authors = ['Craig Ulliott']
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -36,11 +34,11 @@ RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
-task :default => :spec
+task default: :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  version = File.exist?('VERSION') ? File.read('VERSION') : ''
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "spreadsheetx #{version}"
