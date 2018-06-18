@@ -29,7 +29,7 @@ describe 'Spreadsheetx' do
     empty_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec.xlsx"
     workbook = SpreadsheetX.open(empty_xlsx_file)
 
-    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec_out.xlsx"
+    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_out.xlsx"
     workbook.save(new_xlsx_file)
   end
 
