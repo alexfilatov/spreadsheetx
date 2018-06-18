@@ -11,7 +11,6 @@ module SpreadsheetX
     # return a Worksheet object which relates to a specific Worksheet
     def initialize(archive, sheet_id, r_id, name)
       @sheet_id = sheet_id
-      @r_id = r_id
       @name = name
       @target_file = sheet_target(archive, r_id)
       @sheet_number = @target_file.split('.')[0][-1]
@@ -68,24 +67,7 @@ module SpreadsheetX
         return
       end
 
-      row = @xml_doc.find_first("spreadsheetml:sheetData/spreadsheetml:row[@r=#{row_number}]")
-
-      # was this row found
-      unless row
-
-        # build a new row
-        row = XML::Node.new('row')
-        row['r'] = row_number.to_s
-
-        # if there are no rows higher than this one, then add this row to the end of the sheetData
-        next_largest = @xml_doc.find_first("spreadsheetml:sheetData/spreadsheetml:row[@r>#{row_number}]")
-        if next_largest
-          next_largest.prev = row
-        else # there are no rows higher than this one
-          # add this row to the end of the sheetData
-          @xml_doc.find_first('spreadsheetml:sheetData') << row
-        end
-      end
+      row = get_row(row_number)
 
       cell = row.find_first("spreadsheetml:c[@r='#{cell_id}']")
       # was this row found
@@ -161,6 +143,27 @@ module SpreadsheetX
       # some day, speed this up
       (col_number.to_i - 1).times { letter = letter.succ }
       "#{letter}#{row_number}"
+    end
+
+    def get_row(row_number)
+      row = @xml_doc.find_first("spreadsheetml:sheetData/spreadsheetml:row[@r=#{row_number}]")
+      # was this row found
+      unless row
+        # build a new row
+        row = XML::Node.new('row')
+        row['r'] = row_number.to_s
+
+        # if there are no rows higher than this one, then add this row to the end of the sheetData
+        next_largest = @xml_doc.find_first("spreadsheetml:sheetData/spreadsheetml:row[@r>#{row_number}]")
+        if next_largest
+          next_largest.prev = row
+        else # there are no rows higher than this one
+          # add this row to the end of the sheetData
+          @xml_doc.find_first('spreadsheetml:sheetData') << row
+        end
+      end
+
+      row
     end
   end
 end
