@@ -19,3 +19,4 @@ pkg
 
 # For TextMate:
 .tmproj
+templates/out

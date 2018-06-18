@@ -4,7 +4,7 @@ describe 'Spreadsheetx' do
   it 'opens xlsx files successfully' do
     # a valid xlsx file used for testing
     empty_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec.xlsx"
-    workbook = SpreadsheetX.open(empty_xlsx_file)
+    SpreadsheetX.open(empty_xlsx_file)
   end
 
   it 'allow accessing worksheets' do
@@ -50,7 +50,7 @@ describe 'Spreadsheetx' do
     workbook.worksheets.last.update_cell(1, 2, 'A')
     workbook.worksheets.last.update_cell(1, 3, nil)
 
-    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec_changed_out.xlsx"
+    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_changed_out.xlsx"
     workbook.save(new_xlsx_file)
   end
 
@@ -62,7 +62,7 @@ describe 'Spreadsheetx' do
     workbook.worksheets.last.update_cell(9, 9, 9)
     workbook.worksheets.last.update_cell(9, 10, 'A')
 
-    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec_added_out.xlsx"
+    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_added_out.xlsx"
     workbook.save(new_xlsx_file)
   end
 
@@ -79,7 +79,7 @@ describe 'Spreadsheetx' do
       end
     end
 
-    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec_large_data.xlsx"
+    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_large_data.xlsx"
     workbook.save(new_xlsx_file)
   end
 
@@ -95,7 +95,7 @@ describe 'Spreadsheetx' do
     workbook.worksheets.last.update_cell(9, 12, 53)
     workbook.worksheets.last.update_cell(9, 13, nil)
 
-    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec_various_content.xlsx"
+    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_various_content.xlsx"
     workbook.save(new_xlsx_file)
   end
 
@@ -108,7 +108,7 @@ describe 'Spreadsheetx' do
     workbook.formats.first.id.to_i.should > 0
     puts workbook.formats.first.format.should == '[$-F400]h:mm:ss\ AM/PM'
 
-    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec_various_content.xlsx"
+    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_various_content.xlsx"
     workbook.save(new_xlsx_file)
   end
 
@@ -120,7 +120,7 @@ describe 'Spreadsheetx' do
     date_format = workbook.formats.first
     workbook.worksheets.last.update_cell(1, 8, Time.now, date_format)
 
-    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec_cell_format.xlsx"
+    new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_cell_format.xlsx"
     workbook.save(new_xlsx_file)
   end
 end
