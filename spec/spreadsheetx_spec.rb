@@ -118,10 +118,10 @@ describe 'Spreadsheetx' do
 
     workbook.worksheets.last.update_cell(1, 1, 'HELLO OUTPUT')
 
-    path = "1.xlsx"
-    workbook.save(path)
+    tmp_file = Tempfile.new
+    workbook.save(tmp_file.path)
 
-    workbook = SpreadsheetX.open(path)
+    workbook = SpreadsheetX.open(tmp_file.path)
     expect(workbook.worksheets.last.cell(1, 1)).to eq 'HELLO OUTPUT'
   end
 
