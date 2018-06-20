@@ -153,6 +153,10 @@ describe 'Spreadsheetx' do
     it 'converts double letter address' do
       expect(SpreadsheetX::Worksheet.cell_address('CV1')).to eq [100, 1]
     end
+    it 'converts double letter address' do
+      cell_address = SpreadsheetX::Worksheet.cell_id(100, 1)
+      expect(SpreadsheetX::Worksheet.cell_address(cell_address)).to eq [100, 1]
+    end
     it 'rises error on wrong name' do
       expect { SpreadsheetX::Worksheet.cell_address('A') }.to \
         raise_error('wrong excel cell name, please specify smth. like A1')
