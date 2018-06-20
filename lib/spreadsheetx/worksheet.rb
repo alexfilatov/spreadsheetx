@@ -53,11 +53,24 @@ module SpreadsheetX
       target_file
     end
 
+    # Retrieves cell value by cell name, e.g. cell_by_name('F15')
+    def cell_by_name(cell_name)
+      col_number, row_number = SpreadsheetX::Worksheet.cell_address(cell_name)
+      cell(col_number, row_number)
+    end
+
+    # Retrieves cell value by cell coordinates, e.g. cell(12, 34)
     def cell(col_number, row_number)
       cell_id = SpreadsheetX::Worksheet.cell_id(col_number, row_number)
       cell = find_cell(cell_id, row_number)
       raise "Cannot find cell by col number #{col_number} and row number #{row_number}" unless cell
       cell.content
+    end
+
+    # Updates call value by cell name
+    def update_cell_by_name(cell_name, val, format = nil)
+      col_number, row_number = SpreadsheetX::Worksheet.cell_address(cell_name)
+      update_cell(col_number, row_number, val, format)
     end
 
     # update the value of a particular cell, if the row or cell doesnt exist in the XML, then it will be created

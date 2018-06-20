@@ -48,6 +48,8 @@ describe 'Spreadsheetx' do
     SpreadsheetX::Worksheet.cell_id(27, 9).should == 'AA9'
     SpreadsheetX::Worksheet.cell_id(26, 4).should == 'Z4'
     SpreadsheetX::Worksheet.cell_id(820, 496).should == 'AEN496'
+
+    SpreadsheetX::Worksheet.cell_address('AEN496').should == [820, 496]
   end
 
   it 'allows cell values to be updated' do
@@ -61,6 +63,19 @@ describe 'Spreadsheetx' do
 
     new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_changed_out.xlsx"
     workbook.save(new_xlsx_file)
+  end
+
+  context 'when we need to update cell by name' do
+    it 'updates' do
+      empty_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec.xlsx"
+      workbook = SpreadsheetX.open(empty_xlsx_file)
+
+      cell_name = 'A1'
+      workbook.worksheets.last.update_cell_by_name(cell_name, 9)
+      col, row = SpreadsheetX::Worksheet.cell_address(cell_name)
+      expect(workbook.worksheets.last.cell(col, row)).to eq '9'
+      expect(workbook.worksheets.last.cell_by_name(cell_name)).to eq '9'
+    end
   end
 
   it 'allows cells to be added' do
