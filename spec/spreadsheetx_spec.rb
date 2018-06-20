@@ -24,6 +24,15 @@ describe 'Spreadsheetx' do
     workbook.worksheets.last.row_count.should == 8
   end
 
+  it 'can init XLSX file with string content' do
+    # a valid xlsx file used for testing
+    empty_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec.xlsx"
+    content = File.read(empty_xlsx_file)
+    workbook = SpreadsheetX.read(content)
+
+    workbook.worksheets.last.row_count.should == 8
+  end
+
   it 'can be saved' do
     # a valid xlsx file used for testing
     empty_xlsx_file = "#{File.dirname(__FILE__)}/../templates/spec.xlsx"

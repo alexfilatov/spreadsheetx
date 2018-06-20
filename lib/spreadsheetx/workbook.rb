@@ -9,30 +9,43 @@ module SpreadsheetX
     def initialize(path)
       @path = path
       Zip::File.open(path) do |archive|
-        archive.each do |file|
-          case file.name
-            # open the workbook
-          when 'xl/workbook.xml'
-            @worksheets = []
-            # read contents of this file
-            xml_doc = prepare_xmldoc(file)
+        process(archive)
+      end
+    end
 
-            xml_doc.find('spreadsheetml:sheets/spreadsheetml:sheet').each do |node|
-              sheet_id = node['sheetId'].to_i
-              r_id = node['id'].gsub('rId', '').to_i
-              name = node['name'].to_s
-              @worksheets.push SpreadsheetX::Worksheet.new(archive, sheet_id, r_id, name)
-            end
-            # open the styles, to get the cell formats
-          when 'xl/styles.xml'
-            @formats = []
-            # read contents of this file
-            xml_doc = prepare_xmldoc(file)
+    def self.read(zip_contents)
+      result_xlsx = Tempfile.new
+      File.open(result_xlsx.path, 'wb') do |file|
+        file.write zip_contents
+      end
+      
+      SpreadsheetX::Workbook.new(result_xlsx.path)
+    end
 
-            format_id = 0
-            xml_doc.find('spreadsheetml:numFmts/spreadsheetml:numFmt').each do |node|
-              @formats.push SpreadsheetX::CellFormat.new((format_id += 1), node['formatCode'])
-            end
+    def process(archive)
+      archive.each do |file|
+        case file.name
+          # open the workbook
+        when 'xl/workbook.xml'
+          @worksheets = []
+          # read contents of this file
+          xml_doc = prepare_xmldoc(file)
+
+          xml_doc.find('spreadsheetml:sheets/spreadsheetml:sheet').each do |node|
+            sheet_id = node['sheetId'].to_i
+            r_id = node['id'].gsub('rId', '').to_i
+            name = node['name'].to_s
+            @worksheets.push SpreadsheetX::Worksheet.new(archive, sheet_id, r_id, name)
+          end
+          # open the styles, to get the cell formats
+        when 'xl/styles.xml'
+          @formats = []
+          # read contents of this file
+          xml_doc = prepare_xmldoc(file)
+
+          format_id = 0
+          xml_doc.find('spreadsheetml:numFmts/spreadsheetml:numFmt').each do |node|
+            @formats.push SpreadsheetX::CellFormat.new((format_id += 1), node['formatCode'])
           end
         end
       end

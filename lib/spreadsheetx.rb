@@ -13,5 +13,9 @@ module SpreadsheetX
     def open(path)
       SpreadsheetX::Workbook.new(path)
     end
+
+    def read(contents)
+      SpreadsheetX::Workbook.read(contents)
+    end
   end
 end
