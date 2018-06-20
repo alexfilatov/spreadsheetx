@@ -152,6 +152,21 @@ module SpreadsheetX
       "#{letter}#{row_number}"
     end
 
+    # converts A1 into row/col coordinates
+    def self.cell_address(cell_name)
+      matches = /([a-z]+)(\d+)/i.match(cell_name)
+      raise 'wrong excel cell name, please specify smth. like A1' unless matches
+
+      column = matches[1]
+      row = matches[2]
+
+      col = column.upcase.reverse.split('').each_with_index.map do |c, i|
+        (26 ** i) * ((c.ord - 65) + 1)
+      end.inject(0) {|sum,x| sum + x }
+
+      [col, row.to_i]
+    end
+
     def get_row(row_number)
       row = @xml_doc.find_first("spreadsheetml:sheetData/spreadsheetml:row[@r=#{row_number}]")
       # was this row found

@@ -18,7 +18,7 @@ module SpreadsheetX
       File.open(result_xlsx.path, 'wb') do |file|
         file.write zip_contents
       end
-      
+
       SpreadsheetX::Workbook.new(result_xlsx.path)
     end
 

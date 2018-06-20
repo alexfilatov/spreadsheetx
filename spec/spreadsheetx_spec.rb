@@ -145,4 +145,17 @@ describe 'Spreadsheetx' do
     new_xlsx_file = "#{File.dirname(__FILE__)}/../templates/out/spec_cell_format.xlsx"
     workbook.save(new_xlsx_file)
   end
+
+  context 'when we convert cell coordinates' do
+    it 'converts' do
+      expect(SpreadsheetX::Worksheet.cell_address('A1')).to eq [1, 1]
+    end
+    it 'converts double letter address' do
+      expect(SpreadsheetX::Worksheet.cell_address('CV1')).to eq [100, 1]
+    end
+    it 'rises error on wrong name' do
+      expect { SpreadsheetX::Worksheet.cell_address('A') }.to \
+        raise_error('wrong excel cell name, please specify smth. like A1')
+    end
+  end
 end
