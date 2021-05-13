@@ -40,30 +40,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.6.2'
   s.summary = 'Facilitates opening and modifying existing xlsx excel spreadsheets'
 
-  if s.respond_to? :specification_version
-    s.specification_version = 3
+  s.specification_version = 3
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0')
-      s.add_runtime_dependency('libxml-ruby', ['~> 3.1.0'])
-      s.add_runtime_dependency('zipruby', ['~> 0.3.6'])
-      s.add_development_dependency('bundler', ['~> 1.0.0'])
-      s.add_development_dependency('jeweler', ['~> 1.6.2'])
-      s.add_development_dependency('rcov', ['>= 0'])
-      s.add_development_dependency('rspec', ['~> 2.3.0'])
-    else
-      s.add_dependency('rspec', ['~> 2.3.0'])
-      s.add_dependency('rspec', ['~> 2.3.0'])
-      s.add_dependency('rspec', ['~> 2.3.0'])
-      s.add_dependency('rspec', ['~> 2.3.0'])
-      s.add_dependency('rspec', ['~> 2.3.0'])
-      s.add_dependency('zipruby', ['~> 0.3.6'])
-    end
-  else
-    s.add_dependency('bundler', ['~> 1.0.0'])
-    s.add_dependency('jeweler', ['~> 1.6.2'])
-    s.add_dependency('libxml-ruby', ['~> 3.1.0'])
-    s.add_dependency('rcov', ['>= 0'])
-    s.add_dependency('zipruby', ['~> 0.3.6'])
-    s.add_dependency('zipruby', ['~> 0.3.6'])
-  end
+  s.add_runtime_dependency('libxml-ruby', ['~> 3.1.0'])
+  s.add_runtime_dependency('zipruby', ['~> 0.3.6'])
+  s.add_development_dependency('bundler', ['~> 1.0.0'])
+  s.add_development_dependency('jeweler', ['~> 1.6.2'])
+  s.add_development_dependency('rcov', ['>= 0'])
+  s.add_development_dependency('rspec', ['~> 2.3.0'])
 end
