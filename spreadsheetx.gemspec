@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.specification_version = 3
 
   s.add_runtime_dependency('libxml-ruby', ['~> 3.1.0'])
-  s.add_runtime_dependency('zipruby', ['~> 0.3.6'])
+  s.add_runtime_dependency('rubyzip', ['~> 1.3.0'])
   s.add_development_dependency('bundler', ['~> 1.0.0'])
   s.add_development_dependency('jeweler', ['~> 1.6.2'])
   s.add_development_dependency('rcov', ['>= 0'])
